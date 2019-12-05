@@ -1,61 +1,54 @@
-# goplugin
-goplugin是一个GO语言的接口式插件框架
+# GoPlugin
+GoPlugin is an interface based plugin framework written in golang.
 
-# Manager使用方法：
-`
-package helloworld
+# Usage for plugin framework developer：
 
-import ("github.com/atlaslee/goplugin")
+	package helloworld
 
-// 设计插件接口
-type MyExtension interface {
-	GetWord() string
-}
+	import ("github.com/atlaslee/goplugin")
 
-// 初始化插件管理器
-func init() {
-	// 创建插件管理器
-	manager := goplugin.NewManager("hello_world")
+	// Define the extension interface yourself
+	type MyExtension interface {
+		GetWord() string
+	}
 
-	// 创建扩展点
-	plubinManager.AddExtension(goplugin.Extension{Id:"get_word", MyExtension})
-}
+	func init() {
+		manager := goplugin.NewManager("hello_world")
+		plubinManager.AddExtension(goplugin.Extension{Id:"get_word", MyExtension})
+	}
 
-// 通过插件实现功能
-func HelloWorld(manager *goplugin.Manager) {
-	implements := manager.GetImplements("get_word")
-	getWord, _ := implements[0].(MyExtension)
-	print(getWord.GetWord())
-}
-`
+	// Use plugins for your system
+	func HelloWorld(manager *goplugin.Manager) {
+		implements := manager.GetImplements("get_word")
+		getWord, _ := implements[0].(MyExtension)
+		print(getWord.GetWord())
+	}
 
-# Plugin使用方法：
-`
-package helloplugin
+# Usage for plugin developer：
 
-import ("github.com/atlaslee/goplugin")
+	package helloplugin
 
-// 实现插件接口
-type MyPlugin struct {}
+	import ("github.com/atlaslee/goplugin")
 
-func (this *Myplugin) GetWord() string {
-	return "Hello world"
-}
+	// Implement the extension interface
+	type MyPlugin struct {}
 
-// 注册插件
-func init() {
-	// Extension格式：管理器Id/扩展点Id
-	goplugin.Register(&goplugin.Plugin{Extension: "hello_world/get_word", Implement: &MyImplement{}})
-}
+	func (this *Myplugin) GetWord() string {
+		return "Hello world"
+	}
 
-# 插件安装方法：
-`
-~/helloworld$ goplugin get -p helloworld github.com/atlaslee/helloplugin
-`
+	// Regist your plugin
+	func init() {
+		// Extension format：ManagerId/ExtensionId
+		goplugin.Register(&goplugin.Plugin{Extension: "hello_world/get_word", Implement: &MyImplement{}})
+	}
 
-# 手动安装插件：
+# Install a plugin by goplugin script：
 
-`
-~/helloworld$ cp -rf ~/helloplugin src/
-~/helloworld$ echo -e 'package helloworld\nimport("helloplugin")\n' > plugin.go
-`
+	~/helloworld$ goplugin get -p helloworld github.com/atlaslee/helloplugin
+
+# Install a plugin manually：
+
+	~/helloworld$ cp -rf ~/helloplugin src/
+	~/helloworld$ echo 'package helloworld' > plugin.go
+	~/helloworld$ echo 'import ("github.com/atlaslee/helloplugin")' >> plugin.go
