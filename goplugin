@@ -1,0 +1,14 @@
+# !/bin/sh
+
+if [ $# -ne 4 ] || [ $1 != "get" ] || [ $2 != "-p" ]; then
+	exit -1
+fi
+
+go get -u $4
+
+if [ -e plugins.go ]; then
+	echo "import $4" >> plugins.go
+else
+	echo "package $3" >> plugins.go
+	echo "import $4" >> plugins.go
+fi
