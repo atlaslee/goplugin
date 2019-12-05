@@ -14,7 +14,7 @@ GoPlugin is an interface based plugin framework written in golang.
 
 	func init() {
 		manager := goplugin.NewManager("hello_world")
-		plubinManager.AddExtension(goplugin.Extension{Id: "get_word"})
+		pluginManager.AddExtension(goplugin.Extension{Id: "get_word"})
 	}
 
 # Invoke plugins in your code
